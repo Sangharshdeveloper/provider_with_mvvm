@@ -18,6 +18,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
+    Provider.of<PostViewModel>(context,listen: false).getPost();
   }
 
   @override
