@@ -15,10 +15,14 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+
+  List<PostViewModel> postList = [];
+
   @override
   void initState() {
     super.initState();
-    Provider.of<PostViewModel>(context,listen: false).getPost();
+    Provider.of<PostViewModel>(context,listen: false).fetchPosts();
+        
   }
 
   @override
@@ -28,32 +32,18 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final postViewModel = Provider.of<PostViewModel>(context);
-
-    // postViewModel.getPost();
+     
+    final postViewModel =  Provider.of<PostViewModel>(context);
 
     return Scaffold(
       appBar: AppBar(),
-      body: postViewModel.isLoading
-          ? const Center(child: CircularProgressIndicator())
-          : postViewModel.errorMessage.isNotEmpty
-              ? Center(child: Text(postViewModel.errorMessage))
-              : ListView.builder(
-                  itemCount: postViewModel.postList.length,
-                  itemBuilder: (context, index) {
-                    final post = postViewModel.postList[index];
-                    return ListTile(
-                      title: Text(post.title.toString()),
-                      subtitle: Text(post.body.toString()),
-                    );
-                  },
-                ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          postViewModel.getPost();
-        },
-        child: const Icon(Icons.refresh),
-      ),
+      body: (postViewModel.isLoading)? CircularProgressIndicator() : (postViewModel.errorMessage != '') ? Text(postViewModel.errorMessage)
+      : ListView.builder(
+        itemCount: postViewModel.postList.length,
+        itemBuilder: (context,index){
+        
+        return Text(postViewModel.postList[index].body.toString());
+      }),
     );
   }
 

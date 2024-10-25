@@ -1,3 +1,4 @@
+import 'package:app/services/api_service.dart';
 import 'package:app/view_model/post_view_model.dart';
 import 'package:app/views/home_screen.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +7,7 @@ import 'package:provider/provider.dart';
 void main() {
   runApp(
   ChangeNotifierProvider(
-    create: (context) => PostViewModel(),
+    create: (context) => PostViewModel( apiService: ApiService()),
     child: const MyApp()),
   );
 }
